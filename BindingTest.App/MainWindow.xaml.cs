@@ -1,7 +1,7 @@
 ﻿using System.Windows;
-using BindigTest.Lib;
+using BindingTest.Lib;
 
-namespace BindigTest.App
+namespace BindingTest.App
 {
     public partial class MainWindow : Window
     {

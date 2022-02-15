@@ -1,6 +1,6 @@
 using System;
 
-namespace BindigTest.Lib
+namespace BindingTest.Lib
 {
     public class Person
     {
