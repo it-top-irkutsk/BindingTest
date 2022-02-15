@@ -1,0 +1,113 @@
+﻿<Window x:Class="BindigTest.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BindigTest.App"
+        xmlns:lib="clr-namespace:BindigTest.Lib;assembly=BindigTest.Lib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+           <ResourceDictionary>
+                  <ResourceDictionary.MergedDictionaries>
+                         <ResourceDictionary Source="Styles.xaml"/>
+                  </ResourceDictionary.MergedDictionaries>
+                  
+                  <!--
+                  <lib:Person x:Key="Person"
+                              FirstName="Andrey"
+                              LastName="Starinin"/>
+                     -->
+           </ResourceDictionary>
+    </Window.Resources>
+    
+    <StackPanel>
+        <Label x:Name="Title"
+               Content="Тестирование Binding"
+               Style="{StaticResource Style_Title}"/>
+        
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="Label_InputColor" 
+                   Target="{Binding ElementName=InputColor}" 
+                   Content="_Color"
+                   Style="{StaticResource Style_Label}"/>
+            <TextBox x:Name="InputColor"
+                     Style="{StaticResource Style_Input}"/>
+        </StackPanel>
+        <!--
+        <StackPanel Orientation="Horizontal">
+            <Label x:Name="Label_InputTest_2"
+                   Target="{Binding ElementName=InputText}"
+                   Content="_Text"
+                   Style="{StaticResource Style_Label}"/>
+            <TextBox x:Name="InputText"
+                     Style="{StaticResource Style_Input}"/>
+        </StackPanel>
+        -->
+        
+        <Label x:Name="Label_Output" 
+               Target="{Binding ElementName=Output}"
+               Content="_Output:"
+               Style="{StaticResource Style_Label}"/>
+        <Label x:Name="Output"
+               Foreground="{Binding ElementName=InputColor,Path=Text}"
+               Style="{StaticResource Style_Default}"
+               Content="{Binding Person, Path=FirstName}">
+               <!--
+               <Label.Content>
+                      <MultiBinding StringFormat=" {0}, {1}, {2}, {3}">
+                             <Binding Source="{StaticResource Person}" 
+                                      Path="Id"/>
+                             <Binding Source="{StaticResource Person}" 
+                                      Path="FirstName"/>
+                             <Binding Source="{StaticResource Person}" 
+                                      Path="LastName"/>
+                             <Binding Source="{StaticResource Person}" 
+                                      Path="DateOfBirth"/>
+                      </MultiBinding>
+               </Label.Content>
+               -->
+        </Label>
+        
+        <Grid DataContext="{Binding }">
+               <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="*"/>
+               </Grid.ColumnDefinitions>
+               <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto"/>
+                      <RowDefinition Height="Auto"/>
+               </Grid.RowDefinitions>
+               
+               <!-- HEADER -->
+               <Label Grid.Row="0" Grid.Column="0"
+                      Target="{Binding ElementName=Input_Id}"
+                      Content="_ID"/>
+               <Label Grid.Row="0" Grid.Column="1"
+                      Target="{Binding ElementName=Input_FirstName}"
+                      Content="_First name"/>
+               <Label Grid.Row="0" Grid.Column="2"
+                      Target="{Binding ElementName=Input_LastName}"
+                      Content="_Last name"/>
+               <Label Grid.Row="0" Grid.Column="3"
+                      Target="{Binding ElementName=Input_DateOfBirth}"
+                      Content="_Date of birth"/>
+               
+               <!-- BODY -->
+               <TextBox x:Name="Input_Id" 
+                        Grid.Row="1" Grid.Column="0"
+                        Text="{Binding Person, Path=Id}"/>
+               <TextBox x:Name="Input_FirstName"
+                        Grid.Row="1" Grid.Column="1"
+                        Text="{Binding Person, Path=FirstName}"/>
+               <TextBox x:Name="Input_LastName"
+                        Grid.Row="1" Grid.Column="2"
+                        Text="{Binding Person, Path=LastName}"/>
+               <DatePicker x:Name="Input_DateOfBirth"
+                           Grid.Row="1" Grid.Column="3"
+                           Text="{Binding Person, Path=DateOfBirth}"/>
+        </Grid>
+    </StackPanel>
+</Window>
