@@ -5,19 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BindingTest.App"
         xmlns:lib="clr-namespace:BindingTest.Lib;assembly=BindingTest.Lib"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.Resources>
+       <Window.Resources>
            <ResourceDictionary>
                   <ResourceDictionary.MergedDictionaries>
                          <ResourceDictionary Source="Styles.xaml"/>
                   </ResourceDictionary.MergedDictionaries>
                   
-                  <!--
-                  <lib:Person x:Key="Person"
-                              FirstName="Andrey"
-                              LastName="Starinin"/>
-                     -->
+                  <local:DataConverter x:Key="DataConverter"/>
            </ResourceDictionary>
     </Window.Resources>
     
@@ -26,25 +23,6 @@
                Content="Тестирование Binding"
                Style="{StaticResource Style_Title}"/>
         
-        <StackPanel Orientation="Horizontal">
-            <Label x:Name="Label_InputColor" 
-                   Target="{Binding ElementName=InputColor}" 
-                   Content="_Color"
-                   Style="{StaticResource Style_Label}"/>
-            <TextBox x:Name="InputColor"
-                     Style="{StaticResource Style_Input}"/>
-        </StackPanel>
-        <!--
-        <StackPanel Orientation="Horizontal">
-            <Label x:Name="Label_InputTest_2"
-                   Target="{Binding ElementName=InputText}"
-                   Content="_Text"
-                   Style="{StaticResource Style_Label}"/>
-            <TextBox x:Name="InputText"
-                     Style="{StaticResource Style_Input}"/>
-        </StackPanel>
-        -->
-        
         <Label x:Name="Label_Output" 
                Target="{Binding ElementName=Output}"
                Content="_Output:"
@@ -52,24 +30,23 @@
         <Label x:Name="Output"
                Foreground="{Binding ElementName=InputColor,Path=Text}"
                Style="{StaticResource Style_Default}"
-               Content="{Binding Person, Path=FirstName}">
-               <!--
+               DataContext="{Binding Person}">
                <Label.Content>
-                      <MultiBinding StringFormat=" {0}, {1}, {2}, {3}">
-                             <Binding Source="{StaticResource Person}" 
-                                      Path="Id"/>
-                             <Binding Source="{StaticResource Person}" 
-                                      Path="FirstName"/>
-                             <Binding Source="{StaticResource Person}" 
-                                      Path="LastName"/>
-                             <Binding Source="{StaticResource Person}" 
-                                      Path="DateOfBirth"/>
-                      </MultiBinding>
+                      <TextBlock>
+                             <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}#{0}: {2} {1}, {3}">
+                                           <Binding Path="Id"/>
+                                           <Binding Path="FirstName"/>
+                                           <Binding Path="LastName"/>
+                                           <Binding Path="DateOfBirth" 
+                                                    Converter="{StaticResource DataConverter}"/>
+                                    </MultiBinding>
+                             </TextBlock.Text>
+                      </TextBlock>
                </Label.Content>
-               -->
         </Label>
         
-        <Grid DataContext="{Binding }">
+        <Grid>
                <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="*"/>
                       <ColumnDefinition Width="*"/>
@@ -98,16 +75,20 @@
                <!-- BODY -->
                <TextBox x:Name="Input_Id" 
                         Grid.Row="1" Grid.Column="0"
-                        Text="{Binding Person, Path=Id}"/>
+                        Text="{Binding Path=Person.Id}"/>
                <TextBox x:Name="Input_FirstName"
                         Grid.Row="1" Grid.Column="1"
-                        Text="{Binding Person, Path=FirstName}"/>
+                        Text="{Binding Path=Person.FirstName}"/>
                <TextBox x:Name="Input_LastName"
                         Grid.Row="1" Grid.Column="2"
-                        Text="{Binding Person, Path=LastName}"/>
+                        Text="{Binding Path=Person.LastName}"/>
                <DatePicker x:Name="Input_DateOfBirth"
                            Grid.Row="1" Grid.Column="3"
-                           Text="{Binding Person, Path=DateOfBirth}"/>
+                           SelectedDate="{Binding Path=Person.DateOfBirth}"/>
         </Grid>
+        
+        <Button x:Name="Button_Reverse"
+                Content="Reverse"
+                Click="Button_Reverse_OnClick"/>
     </StackPanel>
 </Window>

@@ -6,15 +6,24 @@ namespace BindingTest.App
     public partial class MainWindow : Window
     {
         public Person Person { get; set; }
-        
         public MainWindow()
         {
+            Person = new Person();
+            
             InitializeComponent();
-            Person = new Person
+
+            Person.Id = 2;
+            Person.FirstName = "Andrey";
+
+            //DataContext = this;
+        }
+
+        private void Button_Reverse_OnClick(object sender, RoutedEventArgs e)
+        {
+            Output.DataContext = new Person
             {
-                Id = 1,
-                FirstName = "Andrey",
-                LastName = "Starinin"
+                LastName = "Anonimus",
+                Id = 34
             };
         }
     }
